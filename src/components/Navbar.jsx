@@ -9,7 +9,7 @@ function Navbar() {
           Travel Blog
         </NavLink>
 
-        <div className="space-x-6 hidden md:flex">
+        <div className="space-x-6 hidden md:flex text-lg ">
           <NavLink
             to="/"
             end

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useOutletContext, useNavigate } from "react-router";
 
 function AddPage() {
+  const { addStory } = useOutletContext();
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [desc, setDescription] = useState("");
 
@@ -20,10 +24,12 @@ function AddPage() {
     };
 
     try {
-      await axios.post(API_URL, newStory);
+      const response = await axios.post(API_URL, newStory);
+      addStory(response.data); // Update state immediately
       alert("Story added successfully!");
       setTitle("");
       setDescription("");
+      navigate("/blog"); // This helps in redirecting us to blog immediately//
     } catch (error) {
       alert("Error adding story. Please try again.");
     }

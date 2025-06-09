@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router";
 import axios from "axios";
-import { FaHome, FaBlog, FaPlus } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 
 const API_URL = "http://localhost:3000/stories";
 
@@ -35,7 +35,7 @@ function RootLayout() {
     }
   };
 
-  // This deletes my story//
+  // Deletes a story//
   const deleteStory = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -43,6 +43,11 @@ function RootLayout() {
     } catch (err) {
       alert("Failed to delete story.");
     }
+  };
+
+  // Adds a new story to the state //
+  const addStory = (newStory) => {
+    setStories((prev) => [...prev, newStory]);
   };
 
   return (
@@ -81,15 +86,13 @@ function RootLayout() {
               } pb-1`
             }
           >
-            Add
+            Add New
           </NavLink>
         </div>
       </nav>
 
       <main className="p-6 max-w-6xl mx-auto">
-        <Outlet
-          context={{ stories, toggleFavorite, deleteStory, setStories }}
-        />
+        <Outlet context={{ stories, toggleFavorite, deleteStory, addStory }} />
       </main>
     </>
   );
