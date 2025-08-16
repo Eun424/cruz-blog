@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect} from "react";
 import { NavLink, Outlet } from "react-router";
 import axios from "axios";
 import { FaHome } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { resetStories } from "../redux/blogSlice";
+
 
 const API_URL = "http://localhost:3000/stories";
 
 function RootLayout() {
-  const [stories, setStories] = useState([]);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     async function fetchStories() {
       try {
         const res = await axios.get(API_URL);
-        setStories(res.data);
+        dispatch(resetStories(res.data));
       } catch (err) {
         alert("Failed to fetch stories.");
       }
@@ -20,35 +24,8 @@ function RootLayout() {
     fetchStories();
   }, []);
 
-  // Toggles favorite story//
-  const toggleFavorite = async (id) => {
-    const story = stories.find((s) => s.id === id);
-    if (!story) return;
-
-    const updatedStory = { ...story, favorite: !story.favorite };
-
-    try {
-      await axios.put(`${API_URL}/${id}`, updatedStory);
-      setStories((prev) => prev.map((s) => (s.id === id ? updatedStory : s)));
-    } catch (err) {
-      alert("Failed to update favorite.");
-    }
-  };
-
-  // Deletes a story//
-  const deleteStory = async (id) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
-      setStories((prev) => prev.filter((s) => s.id !== id));
-    } catch (err) {
-      alert("Failed to delete story.");
-    }
-  };
-
-  // Adds a new story to the state //
-  const addStory = (newStory) => {
-    setStories((prev) => [...prev, newStory]);
-  };
+  
+  
 
   return (
     <>
@@ -92,7 +69,7 @@ function RootLayout() {
       </nav>
 
       <main className="p-6 max-w-6xl mx-auto">
-        <Outlet context={{ stories, toggleFavorite, deleteStory, addStory }} />
+        <Outlet />
       </main>
     </>
   );

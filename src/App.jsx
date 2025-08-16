@@ -1,10 +1,11 @@
-import React from "react";
+
 import HomePage from "./pages/HomePage";
 import BlogPage from "./pages/BlogPage";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import RootLayout from "./pages/RootLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import AddPage from "./pages/AddPage";
+import BlogDetails from "./pages/BlogDetails";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "blog",
         Component: BlogPage,
+      },
+      {
+        path: "blog/:id",
+        Component: BlogDetails,
       },
       {
         path: "add",

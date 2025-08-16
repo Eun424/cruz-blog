@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import {useState} from 'react'
 import axios from "axios";
-import { useOutletContext, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { addStory } from "../redux/blogSlice";
+
+
 
 function AddPage() {
-  const { addStory } = useOutletContext();
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -25,7 +29,7 @@ function AddPage() {
 
     try {
       const response = await axios.post(API_URL, newStory);
-      addStory(response.data); // Update state immediately
+       dispatch(addStory(response.data));// add story to Redux store
       alert("Story added successfully!");
       setTitle("");
       setDescription("");
